@@ -19,22 +19,31 @@ void DisjointSets::addelements(int num)
 }
 
 /**
- * This function should compress paths and work as described
+ * This function should compress paths, and works as described
  * in lecture.
  */
-int DisjointSets::find(int elem)
+int DisjointSets::find(int a)
 {
-	if(elems[elem]<0) return elem;
-	return elems[elem] = find(elems[elem]);
+	if(elems[a]<0) return a;
+	return elems[a] = find(elems[a]);
 }
 
 /**
- * This function should be implemented a union by size.
+ * This function should be implemented as a union by size.
  */
 void DisjointSets::setunion(int a, int b)
 {
+	while(elems[a] >=0)
+		a = elems[a];
+	
+	while(elems[b] >=0)
+		b = elems[b];
+	
+	if(a==b) return;
+
 	int newSize = elems[a] + elems[b];
-	if(a > b) {
+	
+	if(elems[a] <= elems[b]) {
 		elems[b] = a;
 		elems[a] = newSize;
 	}
