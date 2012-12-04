@@ -5,7 +5,9 @@
  */
 DisjointSets::DisjointSets()
 {
-
+	/**
+ 	 * I don't know why this is here at all.
+ 	 */
 }
 
 /**
