@@ -1,0 +1,7 @@
+Monad Autograder
+Testing mp7 at 2012-12-07 00:25:57
+
+"Anything that can go wrong will go wrong." ~ Murphy's Law
+
+Setting up test environment...
+Error: /dev/shm/geigle1/grading/monad/fa12-cs225/chattrj3/mp7/maze.h does not exist.
