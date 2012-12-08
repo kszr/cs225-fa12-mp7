@@ -10,6 +10,7 @@ SquareMaze::SquareMaze()
  	 */
 }
 
+#include <iostream>
 /**
  * NOTES:
  * rwalls - right walls, indexed by cell.
@@ -39,10 +40,16 @@ void SquareMaze::makeMaze(int w, int h)
 		rwalls.push_back(true);
 		dwalls.push_back(true);	
 	}
-	
-	int x=0; //The first cell.
-	int y=0;
 
+	/**
+ 	 * A list of walls:
+ 	 * Even numbered indices -- rwalls
+ 	 * Odd numbered indices -- dwalls
+ 	 */
+    vector<int> walls;
+	for(int i=0; i<2*w*h; i++)
+		walls.push_back(i);
+	
 	while(!forest.isConnected())
 	{	
 		/**
@@ -51,43 +58,46 @@ void SquareMaze::makeMaze(int w, int h)
      	* 2 - break the left wall
      	* 3 - break the top wall
      	*/ 
-		srand(time(NULL));
-		int random = rand() % 4;
-		int cell = x + y*width;
-
-		switch(random)
+		int random = randgen() % walls.size(); //Random index;
+	std::cout<<random<<endl;
+		int atRandom = walls[random]; //random wall
+		int cell = atRandom/2; //the cell bounded by the wall
+		int x = cell%width; //its x coordinate
+		int y = cell/width; //its y coordinate
+		
+		switch(atRandom%2) //Is the wall an rwall or a dwall?
 		{
+			/**
+ 			 * 0 => right wall
+ 			 * 1 => bottom wall
+ 			 */
 			case 0:	if(x+1 >= width) break;
 					if(forest.find(cell) == forest.find(cell+1)) break;
 					forest.setunion(cell, cell+1);
 					setWall(x, y, 0, false);
-					x += 1;
+					walls.erase(walls.begin() + random);
 					break;
 			case 1: if(y+1 >= height) break;
 					if(forest.find(cell) == forest.find(cell+width)) break;
 					forest.setunion(cell, cell+width);
 					setWall(x, y, 1, false);
-					y += 1;
+					walls.erase(walls.begin() + random);
 					break;
-			case 2:	if(x-1 < 0) break;
-					if(forest.find(cell) == forest.find(cell-1)) break;
-					forest.setunion(cell, cell-1);
-					setWall(x-1, y, 0, false);
-					x -= 1;
-					break;
-			case 3: if(y-1 < 0) break;
-					if(forest.find(cell) == forest.find(cell-width)) break;
-					forest.setunion(cell, cell-width);
-					setWall(x, y-1, 1, false);
-					y -= 1;
 			default: break;
 		}
 	}	
 }
 
 /**
- * NOTES:
- * Each cell is given a unique number. Cells are numbered
+ * Helps to generate a pseudo-random number.
+ */
+int SquareMaze::randgen()
+{
+	srand(time(0));
+	return rand()%RAND_MAX;
+}
+
+/** Each cell is given a unique number. Cells are numbered
  * from left to right in each row.
  */
 bool SquareMaze::canTravel(int x, int y, int dir) const

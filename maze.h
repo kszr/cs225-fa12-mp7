@@ -17,9 +17,9 @@ class SquareMaze
 		std::vector<int> solveMaze();
 		PNG * drawMaze() const;
 		PNG * drawMazeWithSolution();
-	
+
 	private:
-	
+		int randgen();	
 		DisjointSets forest;	
 		int width;
 		int height;
