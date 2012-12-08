@@ -50,9 +50,9 @@ void SquareMaze::makeMaze(int w, int h)
 	for(int i=0; i<2*w*h; i++)
 		walls.push_back(i);
 
-	vector<bool> processed;
+	vector<int> processed;
 	for(int i=0; i<w*h; i++)
-		processed.push_back(false);
+		processed.push_back(2);
 
 	srand(time(NULL));	
 	while(!forest.isConnected())
@@ -70,7 +70,7 @@ void SquareMaze::makeMaze(int w, int h)
 		int x = cell%width; //its x coordinate
 		int y = cell/width; //its y coordinate
 		
-		if(processed[cell]) continue;
+		if(processed[cell]==0) continue;
 	
 		switch(atRandom%2) //Is the wall an rwall or a dwall?
 		{
@@ -83,12 +83,14 @@ void SquareMaze::makeMaze(int w, int h)
 					forest.setunion(cell, cell+1);
 					setWall(x, y, 0, false);
 					walls.erase(walls.begin() + random);
+					processed[cell]--;
 					break;
 			case 1: if(y+1 >= height) break;
 					if(forest.find(cell) == forest.find(cell+width)) break;
 					forest.setunion(cell, cell+width);
 					setWall(x, y, 1, false);
 					walls.erase(walls.begin() + random);
+					processed[cell]--;
 					break;
 			default: break;
 		}
