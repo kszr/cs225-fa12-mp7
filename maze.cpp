@@ -27,8 +27,8 @@ void SquareMaze::makeMaze(int w, int h)
 	height = h;
 	width = w;
 
-	rwalls.resize(h*w);
-	dwalls.resize(h*w);
+	rwalls.resize(0);
+	dwalls.resize(0);
 
 	for(int i=0; i<h*w; i++)
 	{
@@ -159,12 +159,14 @@ PNG * SquareMaze::drawMaze() const
 		for(int y=0; y<height; y++)
 		{
 			int cell = x + y*width;
+			std::cout<<rwalls[cell] << ", " <<dwalls[cell]<<endl;
 			if(rwalls[cell])
 				for(int k=0; k<10; k++)
 				{
 					RGBAPixel * pixel = (*thing)((x+1)*10, y*10+k);
 					(*thing)((x+1)*10, y*10+k)->red = (*thing)((x+1)*10, y*10+k)->blue = (*thing)((x+1)*10, y*10+k)->green = 0;
 				}
+
 			if(dwalls[cell])
 				for(int k=0; k<10; k++)
 				{
