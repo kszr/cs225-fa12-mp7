@@ -50,6 +50,10 @@ void SquareMaze::makeMaze(int w, int h)
 	for(int i=0; i<2*w*h; i++)
 		walls.push_back(i);
 
+	vector<bool> processed;
+	for(int i=0; i<w*h; i++)
+		processed.push_back(false);
+
 	srand(time(NULL));	
 	while(!forest.isConnected())
 	{	
@@ -66,6 +70,8 @@ void SquareMaze::makeMaze(int w, int h)
 		int x = cell%width; //its x coordinate
 		int y = cell/width; //its y coordinate
 		
+		if(processed[cell]) continue;
+	
 		switch(atRandom%2) //Is the wall an rwall or a dwall?
 		{
 			/**
@@ -94,7 +100,6 @@ void SquareMaze::makeMaze(int w, int h)
  */
 int SquareMaze::randgen()
 {
-//	srand(time(NULL));
 	return rand()%RAND_MAX;
 }
 
@@ -158,13 +163,13 @@ PNG * SquareMaze::drawMaze() const
 				for(int k=0; k<10; k++)
 				{
 					RGBAPixel * pixel = (*thing)((x+1)*10, y*10+k);
-					pixel->red = pixel->blue = pixel->green = 0;
+					(*thing)((x+1)*10, y*10+k)->red = (*thing)((x+1)*10, y*10+k)->blue = (*thing)((x+1)*10, y*10+k)->green = 0;
 				}
 			if(dwalls[cell])
 				for(int k=0; k<10; k++)
 				{
 					RGBAPixel * pixel = (*thing)(x*10+k, (y+1)*10);
-					pixel->red = pixel->blue = pixel->green = 0;
+					(*thing)(x*10+k, (y+1)*10)->red = (*thing)(x*10+k, (y+1)*10)->blue = (*thing)(x*10+k, (y+1)*10)->green = 0;
 				}
 		}	
 	
