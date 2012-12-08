@@ -49,7 +49,8 @@ void SquareMaze::makeMaze(int w, int h)
     vector<int> walls;
 	for(int i=0; i<2*w*h; i++)
 		walls.push_back(i);
-	
+
+	srand(time(NULL));	
 	while(!forest.isConnected())
 	{	
 		/**
@@ -93,7 +94,7 @@ void SquareMaze::makeMaze(int w, int h)
  */
 int SquareMaze::randgen()
 {
-	srand(time(NULL));
+//	srand(time(NULL));
 	return rand()%RAND_MAX;
 }
 
