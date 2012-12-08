@@ -71,7 +71,7 @@ void SquareMaze::makeMaze(int w, int h)
 		int y = cell/width; //its y coordinate
 		
 		if(processed[cell]==0) continue;
-		if(x==width-1 || y==height-1)
+		if((x==width-1 && atRandom%2==0) || (y==height-1 && atRandom%2==1))
 		{
 			walls.erase(walls.begin() + random);
 			processed[cell]--;
