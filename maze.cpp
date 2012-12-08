@@ -79,14 +79,14 @@ void SquareMaze::makeMaze(int w, int h)
  			 * 1 => bottom wall
 			 */
 			case 0:	processed[cell]--;
-					if(x+1 >= width) break;
+					if(x == width-1) break;
 					if(forest.find(cell) == forest.find(cell+1)) break;
 					forest.setunion(cell, cell+1);
 					setWall(x, y, 0, false);
 					walls.erase(walls.begin() + random);
 					break;
 			case 1: processed[cell]--;
-					if(y+1 >= height) break;
+					if(y == height-1) break;
 					if(forest.find(cell) == forest.find(cell+width)) break;
 					forest.setunion(cell, cell+width);
 					setWall(x, y, 1, false);
