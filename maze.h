@@ -11,5 +11,9 @@ class SquareMaze
 		PNG * drawMaze() const;
 		PNG * drawMazeWithSolution();
 	
-
+	private:
+		vector< vector<int> > grid;	
+		int width;
+		int height;
+		vector< vector<bool> > walls;
 };
