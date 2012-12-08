@@ -71,31 +71,26 @@ void SquareMaze::makeMaze(int w, int h)
 		int y = cell/width; //its y coordinate
 		
 		if(processed[cell]==0) continue;
-		if((x==width-1 && atRandom%2==0) || (y==height-1 && atRandom%2==1))
-		{
-			walls.erase(walls.begin() + random);
-			processed[cell]--;
-			continue;
-		}
+	
 		switch(atRandom%2) //Is the wall an rwall or a dwall?
 		{
 			/*
 			 * 0 => right wall
  			 * 1 => bottom wall
 			 */
-			case 0:	if(x+1 >= width) break;
+			case 0:	processed[cell]--;
+					if(x+1 >= width) break;
 					if(forest.find(cell) == forest.find(cell+1)) break;
 					forest.setunion(cell, cell+1);
 					setWall(x, y, 0, false);
 					walls.erase(walls.begin() + random);
-					processed[cell]--;
 					break;
-			case 1: if(y+1 >= height) break;
+			case 1: processed[cell]--;
+					if(y+1 >= height) break;
 					if(forest.find(cell) == forest.find(cell+width)) break;
 					forest.setunion(cell, cell+width);
 					setWall(x, y, 1, false);
 					walls.erase(walls.begin() + random);
-					processed[cell]--;
 					break;
 			default: break;
 		}
