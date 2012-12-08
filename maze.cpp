@@ -53,16 +53,16 @@ void SquareMaze::makeMaze(int w, int h)
 	vector<bool> processed;
 	for(int i=0; i<w*h; i++)
 		processed.push_back(false);
-
+/*
 	srand(time(NULL));	
 	while(!forest.isConnected())
 	{	
-		/**
+**
      	* 0 - break the right wall
      	* 1 - break the bottom wall
      	* 2 - break the left wall
      	* 3 - break the top wall
-     	*/ 
+ 
 		int random = randgen() % walls.size(); //Random index;
 	std::cout<<random<<endl;
 		int atRandom = walls[random]; //random wall
@@ -74,10 +74,10 @@ void SquareMaze::makeMaze(int w, int h)
 	
 		switch(atRandom%2) //Is the wall an rwall or a dwall?
 		{
-			/**
- 			 * 0 => right wall
+**
+	 * 0 => right wall
  			 * 1 => bottom wall
- 			 */
+/
 			case 0:	if(x+1 >= width) break;
 					if(forest.find(cell) == forest.find(cell+1)) break;
 					forest.setunion(cell, cell+1);
@@ -92,7 +92,7 @@ void SquareMaze::makeMaze(int w, int h)
 					break;
 			default: break;
 		}
-	}	 
+	} */	 
 }
 
 /**
