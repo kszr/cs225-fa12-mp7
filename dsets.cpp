@@ -31,6 +31,20 @@ int DisjointSets::find(int a)
 }
 
 /**
+ * Returns true, if all the elements of the forest have a 
+ * common root.
+ */
+bool DisjointSets::isConnected()
+{
+	int a = find(0);
+	for(int i=0; i<elems.size(); i++)
+		if(find(i) != a)
+			return false;
+
+	return true;
+}
+
+/**
  * This function should be implemented as a union by size.
  */
 void DisjointSets::setunion(int a, int b)

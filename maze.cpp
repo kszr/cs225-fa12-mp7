@@ -1,18 +1,26 @@
 #include "maze.h"
 #include <map>
+#include <stdlib.h>
+#include <time.h>
 
 SquareMaze::SquareMaze()
 {
 	/**
- 	 * The default constructor does nothing
- 	 * out of the ordinary.
+ 	 * The default constructor.
  	 */
 }
 
+/**
+ * NOTES:
+ * rwalls - right walls, indexed by cell.
+ * dwalls - bottom walls, indexed by cell.
+ */
 void SquareMaze::makeMaze(int w, int h)
 {	
 	forest.clear();
 
+	//Now each cell is a tree unconnected
+	//to any other cell.
 	forest.addelements(w*h);
 
 	height = h;
@@ -23,8 +31,57 @@ void SquareMaze::makeMaze(int w, int h)
 
 	for(int i=0; i<h*w; i++)
 	{
-		rwalls.push_back(false);
-		dwalls.push_back(false);	
+		/**
+ 		 * Walls are being built everywhere,
+		 * since the dset above was initialized
+		 * so as to contain no connected cell.
+		 */
+		rwalls.push_back(true);
+		dwalls.push_back(true);	
+	}
+	
+	int x=0; //The first cell.
+	int y=0;
+
+	while(!forest.isConnected())
+	{	
+		/**
+     	* 0 - break the right wall
+     	* 1 - break the bottom wall
+     	* 2 - break the left wall
+     	* 3 - break the top wall
+     	*/ 
+		srand(time(NULL));
+		int random = rand() % 4;
+		int cell = x + y*width;
+
+		switch(random)
+		{
+			case 0:	if(x+1 >= width) break;
+					if(forest.find(cell) == forest.find(cell+1)) break;
+					forest.setunion(cell, cell+1);
+					setWall(x, y, 0, false);
+					x += 1;
+					break;
+			case 1: if(y+1 >= height) break;
+					if(forest.find(cell) == forest.find(cell+width)) break;
+					forest.setunion(cell, cell+width);
+					setWall(x, y, 1, false);
+					y += 1;
+					break;
+			case 2:	if(x-1 < 0) break;
+					if(forest.find(cell) == forest.find(cell-1)) break;
+					forest.setunion(cell, cell-1);
+					setWall(x-1, y, 0, false);
+					x -= 1;
+					break;
+			case 3: if(y-1 < 0) break;
+					if(forest.find(cell) == forest.find(cell-width)) break;
+					forest.setunion(cell, cell-width);
+					setWall(x, y-1, 1, false);
+					y -= 1;
+			default: break;
+		}
 	}	
 }
 
@@ -82,7 +139,23 @@ PNG * SquareMaze::drawMaze() const
 	for(int i=0; i<thing->height(); i++)
 		(*thing)(0,i)->red = (*thing)(0,i)->blue = (*thing)(0,i)->green = 0;
 
-	
+	for(int x=0; x<width; x++)
+		for(int y=0; y<height; y++)
+		{
+			int cell = x + y*width;
+			if(rwalls[cell])
+				for(int k=0; k<10; k++)
+				{
+					RGBAPixel * pixel = (*thing)((x+1)*10, y*10+k);
+					pixel->red = pixel->blue = pixel->green = 0;
+				}
+			if(dwalls[cell])
+				for(int k=0; k<10; k++)
+				{
+					RGBAPixel * pixel = (*thing)(x*10+k, (y+1)*10);
+					pixel->red = pixel->blue = pixel->green = 0;
+				}
+		}	
 	
 	return thing;
 }
