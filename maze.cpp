@@ -1,6 +1,5 @@
 #include "maze.h"
-#include "dsets.cpp"
-#include <maps>
+#include <map>
 
 SquareMaze::SquareMaze()
 {
@@ -10,84 +9,86 @@ SquareMaze::SquareMaze()
  	 */
 }
 
-void SquareMaze::makeMaze(int width, int height);
+void SquareMaze::makeMaze(int w, int h)
 {	
-	/**
- 	 * Erases the grid.
- 	 */
-	grid.resize(0);
-  	walls.resize(0);
-	for (int i = 0; i < 0; ++i)
-    {
-		grid[i].resize(0);
-	}
-	/**
- 	 * Resizes it to the specified
- 	 * dimensions.
- 	 */
-	grid.resize(height);
-  	walls.resize(height);
+	forest.clear();
 
-	for (int i = 0; i < height; ++i)
-    {
-	 	grid[i].resize(width);
-		walls[i].resize(width);
-	}
-	
-	for(int i=0; i<height; i++)
-		for(int j=0; j<width; j++)
-			walls[i][j] = false;
-}	
+	forest.addelements(w*h);
 
+	height = h;
+	width = w;
+
+	rwalls.resize(h*w);
+	dwalls.resize(h*w);
+
+	for(int i=0; i<h*w; i++)
+	{
+		rwalls.push_back(false);
+		dwalls.push_back(false);	
+	}	
+}
+
+/**
+ * NOTES:
+ * Each cell is given a unique number. Cells are numbered
+ * from left to right in each row.
+ */
 bool SquareMaze::canTravel(int x, int y, int dir) const
 {
+	int cell = y*width + x;
 	switch(dir)
 	{
-		case 0: return (x+1 < width) && !walls[x+1][y];
-		case 1: return (y+1 < height) && !walls[x][y+1];
-		case 2: return (x-1 > -1) && !walls[x-1][y];
-		case 3: return (y-1 > -1) && !walls[x][y-1];
+		case 0: return (x+1 < width) && !rwalls[cell];
+		case 1: return (y+1 < height) && !dwalls[cell];
+		case 2: return (x-1 > -1) && !rwalls[cell-1];
+		case 3: return (y-1 > -1) && !dwalls[cell-width];
+
+		default: return false;
 	}
 }
 
+/**
+ * NOTES:
+ * Read the notes above the makeMaze function for information on
+ * the schemata used to represent walls.
+ */
 void SquareMaze::setWall(int x, int y, int dir, bool exists)
 {
+	int cell = y*width + x;
 	switch(dir)
 	{
-		case 0: walls[x+1][y] = true;
-				break;
-		case 1: walls[x][y+1] = true;
-				break;
+		case 0: rwalls[cell] = exists;
+		case 1: dwalls[cell] = exists;
 		default: break;
 	}
 }
 
 vector<int> SquareMaze::solveMaze()
 {
-
+	return vector<int>();
 }
 
 PNG * SquareMaze::drawMaze() const
 {
 	PNG * thing = new PNG(10*width + 1, 10*height + 1);
 	
-	for(int i=0; i < width; i++)
-		for(int j=0; j<10; j++)
-		{
-			if(i>=1 && i<=9)
-				continue;
-		
-			(*thing)(i,j)->red = (*thing)(i,j)->blue = (*thing)(i,j)->green = 255;
-		}
+	for(int i=0; i < thing->width(); i++)
+	{
+		if(i>0 && i<10) continue;
+				
+		(*thing)(i,0)->red = (*thing)(i,0)->blue = (*thing)(i,0)->green = 0;
 	
-	for(int i=0; i<height; i++)
-		for(int j=0; j<10; j++)
-			(*thing)(j,i)->red = (*thing)(j,i)->blue = (*thing)(j,i)->green = 255;
+	}
+	for(int i=0; i<thing->height(); i++)
+		(*thing)(0,i)->red = (*thing)(0,i)->blue = (*thing)(0,i)->green = 0;
 
+	
+	
 	return thing;
 }
 
 PNG * SquareMaze::drawMazeWithSolution()
 {
-	
+	PNG * thing = new PNG();
+	return thing;
 }

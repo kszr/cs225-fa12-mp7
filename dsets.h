@@ -1,3 +1,5 @@
+#ifndef EDSETS_H
+#define EDSETS_H
 #include <vector>
 class DisjointSets
 {
@@ -6,7 +8,8 @@ class DisjointSets
 		void addelements(int num);
 		int find(int elem);
 		void setunion(int a, int b);
-	
+		void clear();
 	private:
 		std::vector<int> elems;
 };
+#endif

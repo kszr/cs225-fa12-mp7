@@ -54,3 +54,11 @@ void DisjointSets::setunion(int a, int b)
 		elems[b] = newSize;
 	}
 }
+
+/**
+ * This clears the vector.
+ */
+void DisjointSets::clear()
+{
+	elems.clear();
+}

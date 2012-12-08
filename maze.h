@@ -1,4 +1,11 @@
+#ifndef EMAZE_H
+#define EMAZE_H
+
 #include <vector>
+#include "png.h"
+#include "dsets.h"
+
+using namespace std;
 
 class SquareMaze
 {
@@ -12,8 +19,13 @@ class SquareMaze
 		PNG * drawMazeWithSolution();
 	
 	private:
-		vector< vector<int> > grid;	
+	
+		DisjointSets forest;	
 		int width;
 		int height;
-		vector< vector<bool> > walls;
+		vector<bool> dwalls;
+		vector<bool> rwalls;
+
 };
+
+#endif
