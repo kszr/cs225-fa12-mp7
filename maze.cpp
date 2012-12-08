@@ -50,28 +50,28 @@ void SquareMaze::makeMaze(int w, int h)
 	for(int i=0; i<2*w*h; i++)
 		walls.push_back(i);
 	
-//	while(!forest.isConnected())
-//	{	
+	while(!forest.isConnected())
+	{	
 		/**
      	* 0 - break the right wall
      	* 1 - break the bottom wall
      	* 2 - break the left wall
      	* 3 - break the top wall
      	*/ 
-/*		int random = randgen() % walls.size(); //Random index;
+		int random = randgen() % walls.size(); //Random index;
 	std::cout<<random<<endl;
 		int atRandom = walls[random]; //random wall
 		int cell = atRandom/2; //the cell bounded by the wall
 		int x = cell%width; //its x coordinate
 		int y = cell/width; //its y coordinate
-*/		
-//		switch(atRandom%2) //Is the wall an rwall or a dwall?
-//		{
+		
+		switch(atRandom%2) //Is the wall an rwall or a dwall?
+		{
 			/**
  			 * 0 => right wall
  			 * 1 => bottom wall
  			 */
-	/*		case 0:	if(x+1 >= width) break;
+			case 0:	if(x+1 >= width) break;
 					if(forest.find(cell) == forest.find(cell+1)) break;
 					forest.setunion(cell, cell+1);
 					setWall(x, y, 0, false);
@@ -85,7 +85,7 @@ void SquareMaze::makeMaze(int w, int h)
 					break;
 			default: break;
 		}
-	}	 */
+	}	 
 }
 
 /**
@@ -93,7 +93,7 @@ void SquareMaze::makeMaze(int w, int h)
  */
 int SquareMaze::randgen()
 {
-	srand(time(0));
+	srand(time(NULL));
 	return rand()%RAND_MAX;
 }
 
