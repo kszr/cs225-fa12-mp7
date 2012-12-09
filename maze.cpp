@@ -143,6 +143,7 @@ void SquareMaze::setWall(int x, int y, int dir, bool exists)
 	switch(dir)
 	{
 		case 0: rwalls[cell] = exists;
+				break;
 		case 1: dwalls[cell] = exists;
 		default: break;
 	}
