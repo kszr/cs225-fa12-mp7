@@ -83,7 +83,6 @@ void SquareMaze::makeMaze(int w, int h)
 		int x = cell%width; //its x coordinate
 		int y = cell/width; //its y coordinate
 		
-//		if(processed[cell]==2) continue;
 		int thing = atRandom%2;	
 		switch(thing) //Is the wall an rwall or a dwall?
 		{
@@ -91,20 +90,16 @@ void SquareMaze::makeMaze(int w, int h)
 			 * 0 => right wall
  			 * 1 => bottom wall
 			 */
-			case 0: //processed[cell]++;
-					if(x == width-1) break; //if the cell is on the right perimeter.
+			case 0: if(x == width-1) break; //if the cell is on the right perimeter.
 					if(forest.find(cell) == forest.find(cell+1)) break; //if the cell is already in the tree.
 					forest.setunion(cell, cell+1);
 					setWall(x, y, 0, false);
-					//counter++;
 					walls.erase(walls.begin() + random);
 					break;
-			case 1: //processed[cell]++;
-					if(y == height-1) break; //if the cell is on the bottom perimeter.
+			case 1: if(y == height-1) break; //if the cell is on the bottom perimeter.
 					if(forest.find(cell) == forest.find(cell+width)) break; //if the cell is already in the tree.
 					forest.setunion(cell, cell+width);
 					setWall(x, y, 1, false);
-					//counter++;
 					walls.erase(walls.begin() + random);
 			default: break;
 		}
