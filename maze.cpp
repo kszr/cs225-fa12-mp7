@@ -63,9 +63,9 @@ void SquareMaze::makeMaze(int w, int h)
  	 * of preventing the algorithm from attempting to make changes to a cell, when it is known
  	 * for certain that both its walls have been considered for removal.
  	 */
-	vector<int> processed;
-	for(int i=0; i<w*h; i++)
-		processed.push_back(0);
+//	vector<int> processed;
+//	for(int i=0; i<w*h; i++)
+//		processed.push_back(0);
 
 	srand(time(NULL));	
 	while(!forest.isConnected() && walls.size()>0)
@@ -86,18 +86,18 @@ void SquareMaze::makeMaze(int w, int h)
 	
 		switch(atRandom%2) //Is the wall an rwall or a dwall?
 		{
-			/*
+			/**
 			 * 0 => right wall
  			 * 1 => bottom wall
 			 */
-			case 0:	processed[cell]++;
+			case 0: //processed[cell]++;
 					if(x == width-1) break; //if the cell is on the right perimeter.
 					if(forest.find(cell) == forest.find(cell+1)) break; //if the cell is already in the tree.
 					forest.setunion(cell, cell+1);
 					setWall(x, y, 0, false);
 					walls.erase(walls.begin() + random);
 					break;
-			case 1: processed[cell]++;
+			case 1: //processed[cell]++;
 					if(y == height-1) break; //if the cell is on the bottom perimeter.
 					if(forest.find(cell) == forest.find(cell+width)) break; //if the cell is already in the tree.
 					forest.setunion(cell, cell+width);
