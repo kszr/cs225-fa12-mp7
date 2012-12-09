@@ -93,13 +93,13 @@ void SquareMaze::makeMaze(int w, int h)
 			case 0: if(x == width-1) break; //if the cell is on the right perimeter.
 					if(forest.find(cell) == forest.find(cell+1)) break; //if the cell is already in the tree.
 					forest.setunion(cell, cell+1);
-					setWall(x, y, 0, false);
+					rwalls[cell] = false;;
 					walls.erase(walls.begin() + random);
 					break;
 			case 1: if(y == height-1) break; //if the cell is on the bottom perimeter.
 					if(forest.find(cell) == forest.find(cell+width)) break; //if the cell is already in the tree.
 					forest.setunion(cell, cell+width);
-					setWall(x, y, 1, false);
+					dwalls[cell] = false;
 					walls.erase(walls.begin() + random);
 			default: break;
 		}
