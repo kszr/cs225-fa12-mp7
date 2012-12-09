@@ -56,18 +56,6 @@ void SquareMaze::makeMaze(int w, int h)
 	for(int i=0; i<2*w*h; i++)
 		walls.push_back(i);
 
-	/**
- 	 * Indicates whether a cell has been processed. The possible values for each index are 2,
- 	 * 1, and 0, indicating in order, whether a cell has been processed twice, once, or not
- 	 * at all. This is not, perhaps, the best way to process cells, but it serves the purpose
- 	 * of preventing the algorithm from attempting to make changes to a cell, when it is known
- 	 * for certain that both its walls have been considered for removal.
- 	 */
-//	vector<int> processed;
-//	for(int i=0; i<w*h; i++)
-//		processed.push_back(0);
-	int counter = 0;
-
 	srand(time(NULL));	
 	while(!forest.isConnected())
 	{	
@@ -93,7 +81,7 @@ void SquareMaze::makeMaze(int w, int h)
 			case 0: if(x == width-1) break; //if the cell is on the right perimeter.
 					if(forest.find(cell) == forest.find(cell+1)) break; //if the cell is already in the tree.
 					forest.setunion(cell, cell+1);
-					rwalls[cell] = false;;
+					rwalls[cell] = false;
 					walls.erase(walls.begin() + random);
 					break;
 			case 1: if(y == height-1) break; //if the cell is on the bottom perimeter.
@@ -167,8 +155,7 @@ PNG * SquareMaze::drawMaze() const
 		//Keep the top-left corner unbounded.
 		if(i>0 && i<10) continue;
 			
-		(*thing)(i,0)->red = (*thing)(i,0)->blue = (*thing)(i,0)->green = 0;
-	
+		(*thing)(i,0)->red = (*thing)(i,0)->blue = (*thing)(i,0)->green = 0;	
 	}
 
 	/**
@@ -209,6 +196,7 @@ PNG * SquareMaze::drawMaze() const
 
 PNG * SquareMaze::drawMazeWithSolution()
 {
-	PNG * thing = new PNG();
+	PNG * thing = drawMaze();
+	
 	return thing;
 }
