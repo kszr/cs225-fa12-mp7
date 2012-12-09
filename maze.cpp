@@ -69,7 +69,7 @@ void SquareMaze::makeMaze(int w, int h)
 	int counter = 0;
 
 	srand(time(NULL));	
-	while(!forest.isConnected() && walls.size()>0 && counter < w*h)
+	while(!forest.isConnected())
 	{	
 	   /**
      	* 0 - break the right wall
@@ -96,7 +96,7 @@ void SquareMaze::makeMaze(int w, int h)
 					if(forest.find(cell) == forest.find(cell+1)) break; //if the cell is already in the tree.
 					forest.setunion(cell, cell+1);
 					setWall(x, y, 0, false);
-					counter++;
+					//counter++;
 					walls.erase(walls.begin() + random);
 					break;
 			case 1: //processed[cell]++;
@@ -104,7 +104,7 @@ void SquareMaze::makeMaze(int w, int h)
 					if(forest.find(cell) == forest.find(cell+width)) break; //if the cell is already in the tree.
 					forest.setunion(cell, cell+width);
 					setWall(x, y, 1, false);
-					counter++;
+					//counter++;
 					walls.erase(walls.begin() + random);
 			default: break;
 		}
