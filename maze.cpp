@@ -84,8 +84,8 @@ void SquareMaze::makeMaze(int w, int h)
 		int y = cell/width; //its y coordinate
 		
 //		if(processed[cell]==2) continue;
-	
-		switch(atRandom%2) //Is the wall an rwall or a dwall?
+		int thing = atRandom%2;	
+		switch(thing) //Is the wall an rwall or a dwall?
 		{
 			/**
 			 * 0 => right wall
