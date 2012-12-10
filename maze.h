@@ -19,6 +19,8 @@ class SquareMaze
 		PNG * drawMazeWithSolution();
 
 	private:
+		int pathfinder(int x, int y, int destX, int destY, vector<bool> & beenhere);
+		void makeVector(int x, int y, int destX, int destY, vector<int> & solution, vector<bool> & beenhere);
 		int randgen();	
 		DisjointSets forest;	
 		int width;

@@ -2,6 +2,7 @@
 #include <map>
 #include <stdlib.h>
 #include <time.h>
+#include <climits>
 
 /**
  * The default constructor.
@@ -137,10 +138,111 @@ void SquareMaze::setWall(int x, int y, int dir, bool exists)
 	}
 }
 
+/**
+ * Returns the length of the path from the start of the maze to the specified
+ * coordinate at the bottom of the maze.
+ */
+int SquareMaze::pathfinder(int x, int y, int destX, int destY, vector<bool> & beenhere)
+{
+	if(y == destY && x == destX)
+		return 1;
+	
+	int cell = x + y*width;
+	
+	beenhere[cell] = true;
+
+	if(x < destX && canTravel(x, y, 0) && !beenhere[x+1 + y*width])
+			return 1 + pathfinder(x+1, y, destX, destY, beenhere);
+	if(canTravel(x, y, 3) && !beenhere[x + (y-1)*width])
+			return 1 + pathfinder(x, y-1, destX, destY, beenhere);
+
+	if(y < destY && canTravel(x, y, 1) && !beenhere[x + (y+1)*width])
+			return 1 + pathfinder(x, y+1, destX, destY, beenhere);
+
+	if(canTravel(x, y, 2) && !beenhere[x-1 + y*width])
+		return 1 + pathfinder(x-1, y, destX, destY, beenhere);
+
+	return 0;
+
+}
+
+#include <iostream>
 vector<int> SquareMaze::solveMaze()
 {
-	return vector<int>();
+	/**
+ 	 * Finds the cell farthest away from the entrance.
+ 	 */
+	int exitX = 0; //exitY is height-1.
+	int max = -1;
+	
+	vector<bool> beenhere;
+	for(int i=0; i<width*height; i++)
+		beenhere.push_back(false);
+
+	for(int i=0; i<width; i++)
+	{
+		int	length = pathfinder(0, 0, i, height-1, beenhere);
+		if(length > max)
+		{
+			max = length;
+			exitX = i;
+		}
+	}
+	
+std::cout<<"MAX: " << max<<endl;
+	beenhere.resize(0);
+	for(int i=0; i<width*height; i++)
+		beenhere.push_back(false);
+
+	vector<int> solution;
+	makeVector(0, 0, exitX, height-1, solution, beenhere);
+
+	for(int i=0; i < solution.size(); i++)
+		std::cout<<solution[i]<<endl;
+	return solution;
 }
+
+/**
+ * Creates the solution vector.
+ */
+void SquareMaze::makeVector(int x, int y, int destX, int destY, vector<int> & solution, vector<bool> & beenhere)
+{
+	if(y == destY && x == destX)
+		return;
+
+	int cell = x + y*width;
+	beenhere[cell] = true;
+
+    if(x < destX && canTravel(x, y, 0) && !beenhere[x+1 + y*width])
+    {
+		solution.push_back(0);
+		makeVector(x+1, y, destX, destY, solution, beenhere);
+		return;
+	}
+
+	if(canTravel(x, y, 3) && !beenhere[x + (y-1)*width])
+    {
+        solution.push_back(3);
+        makeVector(x, y-1, destX, destY, solution, beenhere);
+		return;
+    }
+ 
+    if(y < destY && canTravel(x, y, 1) && !beenhere[x + (y+1)*width])
+    {
+		solution.push_back(1);
+		makeVector(x, y+1, destX, destY, solution, beenhere);
+		return;
+	}
+
+    if(canTravel(x, y, 2) && !beenhere[x-1 + y*width])
+	{
+		solution.push_back(2);
+		makeVector(x-1, y, destX, destY, solution, beenhere);
+        return;
+	}
+
+}
+
 
 PNG * SquareMaze::drawMaze() const
 {
@@ -197,6 +299,6 @@ PNG * SquareMaze::drawMaze() const
 PNG * SquareMaze::drawMazeWithSolution()
 {
 	PNG * thing = drawMaze();
-	
+	vector<int> solution = solveMaze();
 	return thing;
 }
