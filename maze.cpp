@@ -299,13 +299,13 @@ PNG * SquareMaze::drawMazeWithSolution()
 		}
 		switch(solution[i])
 		{
-			case 0: x += 11;
+			case 0: x += 10;
 					break;
-			case 1: y += 11;
+			case 1: y += 10;
 					break;
-			case 2:	x -= 11;
+			case 2:	x -= 10;
 					break;
-			case 3:	y -= 11;
+			case 3:	y -= 10;
 			default: break;
 		}
 	}	
