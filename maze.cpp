@@ -198,31 +198,35 @@ vector<int> SquareMaze::solveMaze()
 		int left = x-1 + y*width;
 		int up = x + (y-1)*width;
 
-		if(canTravel(x, y, 0) && beenhere[right] != 2)
+		if(canTravel(x, y, 0) && beenhere[right] == 0)
 		{   
 			structure.push(right);
 			sol.push(0);
 			flag = true;
 		}
-		else if(canTravel(x, y, 1) && beenhere[down] != 2)
+		else if(canTravel(x, y, 1) && beenhere[down] == 0)
 		{
 			structure.push(down);
 			sol.push(1);
 			flag = true;
 		}
-		else if(canTravel(x, y, 2) && beenhere[left] != 2)
+		else if(canTravel(x, y, 2) && beenhere[left] == 0)
 		{
 			structure.push(left);
 			sol.push(2);
 			flag = true;
 		}
-		else if(canTravel(x, y, 3) && beenhere[up] != 2)
+		else if(canTravel(x, y, 3) && beenhere[up] == 0)
 		{
 			structure.push(up);
 			sol.push(3);
 			flag = true;
 		}
-		else if(beenhere[curr] == 1) structure.push(curr);
+		else if(beenhere[right] == 1) structure.push(right);
+		else if(beenhere[left] == 1) structure.push(left);
+		else if(beenhere[up] == 1) structure.push(up);
+		else if(beenhere[down] == 1) structure.push(down); 
+
 		beenhere[curr] ++;
 	}
 	for(int i=0; i<solution.size(); i++)
