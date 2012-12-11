@@ -1,7 +1,7 @@
 Monad Autograder
-Testing mp7 at 2012-12-10 00:33:30
+Testing mp7 at 2012-12-11 00:38:21
 
-"If you have a procedure with ten parameters, you probably missed some." ~ Alan J. Perlis
+"Always code as if the guy who ends up maintaining your code will be a violent psychopath who knows where you live. Code for readability." ~ John Woods
 
 Setting up test environment...
 Compiling...
@@ -23,7 +23,7 @@ testMakeMazeRandom  . . . [5 pts] - passed
 testSolveMazeValidPath  . [5 pts] - FAILED
 testSolutionBottomRow . . [5 pts] - FAILED
 testSolutionCorrectSquare [5 pts] - FAILED
-testSolveMazeSmall  . . . [5 pts] - FAILED
+testSolveMazeSmall  . . . [5 pts] - passed
 testSolveMazeLarge  . . . [5 pts] - FAILED
 testDrawMazeSmall . . . . [5 pts] - FAILED
 testDrawMazeMed . . . . . [5 pts] - FAILED
@@ -34,5 +34,5 @@ testDrawSolutionLarge . . [5 pts] - FAILED
 
 Total score...
 ================================================================
-TOTAL SCORE: 45
+TOTAL SCORE: 50
 
