@@ -183,7 +183,7 @@ vector<int> SquareMaze::solveMaze()
 		//only after the first iteration.
 	//	flag = true;
 		//Mark the current cell as processed.
-		beenhere[curr]++;
+	//	beenhere[curr]++;
 		
 		int x = curr%width;
 		int y = curr/width;
@@ -224,6 +224,7 @@ vector<int> SquareMaze::solveMaze()
 		}
 		else if(beenhere[curr] == 1) structure.push(curr);
 
+		beenhere[curr] ++;
 	}
 	for(int i=0; i<solution.size(); i++)
 		cout << solution[i] << endl;
