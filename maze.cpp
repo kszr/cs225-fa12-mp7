@@ -165,7 +165,7 @@ int SquareMaze::pathfinder(int x, int y, int destX, int destY, vector<bool> & be
 	return 0;
 
 }
-
+#include <iostream>
 using namespace std;
 vector<int> SquareMaze::solveMaze()
 {
@@ -180,8 +180,8 @@ vector<int> SquareMaze::solveMaze()
 	for(int i=0; i<width*height; i++)
 		beenhere.push_back(false);
 
-	int exitX;
-	int flag = false;
+	int exitX; //The x-coordinate of the exit
+	int flag = false; //Something that obviates segmentation faults
 	vector<int> solution;
 	
 	//Performs a breadth-first search. Exits as soon
@@ -190,14 +190,19 @@ vector<int> SquareMaze::solveMaze()
 	{
 		int curr = structure.back();
 		structure.pop();
+
 		if(flag)
 		{
 			int dir = sol.back();
 			sol.pop();
 			solution.push_back(dir);
 		}
-		!flag;
+		//It should attempt to dequeue from the solution queue
+		//only after the first iteration.
+		flag = true;
+		//Mark the current cell as processed.
 		beenhere[curr] = true;
+		//Break, if it hits the bottom of the grid.
 		if(curr/width == height-1)
 		{
 			exitX = curr%width;
@@ -233,7 +238,8 @@ vector<int> SquareMaze::solveMaze()
 			sol.push(3);
 		}
 	}
-	
+	for(int i=0; i<solution.size(); i++)
+		cout << solution[i] << endl;
 	return solution;
 }	
 
