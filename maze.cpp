@@ -189,21 +189,23 @@ vector<int> SquareMaze::solveMaze()
 			structure.push(right);
 			sol.push(0);
 		}
-		if(canTravel(x, y, 1) && !beenhere[down])
+		else if(canTravel(x, y, 1) && !beenhere[down])
 		{
 			structure.push(down);
 			sol.push(1);
 		}
-		if(canTravel(x, y, 2) && !beenhere[left])
+		else if(canTravel(x, y, 2) && !beenhere[left])
 		{
 			structure.push(left);
 			sol.push(2);
 		}
-		if(canTravel(x, y, 3) && !beenhere[up])
+		else if(canTravel(x, y, 3) && !beenhere[up])
 		{
 			structure.push(up);
 			sol.push(3);
 		}
+		else break;
+
 		exitX = curr%width;
 	}
 	for(int i=0; i<solution.size(); i++)
