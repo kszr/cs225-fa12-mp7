@@ -175,12 +175,6 @@ vector<int> SquareMaze::solveMaze()
 		flag = true;
 		//Mark the current cell as processed.
 		beenhere[curr] = true;
-		//Break, if it hits the bottom of the grid.
-	/*	if(curr/width == height-1)
-		{
-			exitX = curr%width;
-			break;
-		}*/
 		
 		int x = curr%width;
 		int y = curr/width;
