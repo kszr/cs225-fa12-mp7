@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <climits>
-
+#include <queue>
 /**
  * The default constructor.
  */
@@ -166,41 +166,76 @@ int SquareMaze::pathfinder(int x, int y, int destX, int destY, vector<bool> & be
 
 }
 
-#include <iostream>
+using namespace std;
 vector<int> SquareMaze::solveMaze()
 {
 	/**
  	 * Finds the cell farthest away from the entrance.
  	 */
-	int exitX = 0; //exitY is height-1.
-	int max = -1;
+	queue<int> structure;
+	queue<int> sol;
+	structure.push(0);
 	
-	vector<bool> beenhere;
+	vector<int> beenhere;
 	for(int i=0; i<width*height; i++)
 		beenhere.push_back(false);
 
-	for(int i=0; i<width; i++)
+	int exitX;
+	int flag = false;
+	vector<int> solution;
+	
+	//Performs a breadth-first search. Exits as soon
+	//as it hits the bottom of the grid.
+	while(!structure.empty())
 	{
-		int	length = pathfinder(0, 0, i, height-1, beenhere);
-		if(length > max)
+		int curr = structure.back();
+		structure.pop();
+		if(flag)
 		{
-			max = length;
-			exitX = i;
+			int dir = sol.back();
+			sol.pop();
+			solution.push_back(dir);
+		}
+		!flag;
+		beenhere[curr] = true;
+		if(curr/width == height-1)
+		{
+			exitX = curr%width;
+			break;
+		}
+		
+		int x = curr%width;
+		int y = curr/width;
+		
+		int right = x+1 + y*width;
+		int down = x + (y+1)*width;
+		int left = x-1 + y*width;
+		int up = x + (y-1)*width;
+
+		if(!beenhere[right] && canTravel(x, y, 0))
+		{
+			structure.push(right);
+			sol.push(0);
+		}
+		if(!beenhere[down] && canTravel(x, y, 1))
+		{
+			structure.push(down);
+			sol.push(1);
+		}
+		if(!beenhere[left] && canTravel(x, y, 2))
+		{
+			structure.push(left);
+			sol.push(2);
+		}
+		if(!beenhere[up] && canTravel(x, y, 3))
+		{
+			structure.push(up);
+			sol.push(3);
 		}
 	}
 	
-std::cout<<"MAX: " << max<<endl;
-	beenhere.resize(0);
-	for(int i=0; i<width*height; i++)
-		beenhere.push_back(false);
-
-	vector<int> solution;
-	makeVector(0, 0, exitX, height-1, solution, beenhere);
-
-	for(int i=0; i < solution.size(); i++)
-std::cout<<solution[i]<<endl;
 	return solution;
-}
+}	
 
 /**
  * Creates the solution vector.
