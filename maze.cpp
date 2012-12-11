@@ -203,11 +203,11 @@ vector<int> SquareMaze::solveMaze()
 		//Mark the current cell as processed.
 		beenhere[curr] = true;
 		//Break, if it hits the bottom of the grid.
-		if(curr/width == height-1)
+	/*	if(curr/width == height-1)
 		{
 			exitX = curr%width;
 			break;
-		}
+		}*/
 		
 		int x = curr%width;
 		int y = curr/width;
@@ -237,6 +237,7 @@ vector<int> SquareMaze::solveMaze()
 			structure.push(up);
 			sol.push(3);
 		}
+		exitX = curr%width;
 	}
 	for(int i=0; i<solution.size(); i++)
 		cout << solution[i] << endl;
