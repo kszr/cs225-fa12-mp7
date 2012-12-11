@@ -228,32 +228,31 @@ vector<int> SquareMaze::solveMaze()
 			deadEnd = false;
 		}
 		if(deadEnd && canTravel(x, y, 0) && beenhere[right] == 1) {
-			 
-					structure.push(right);
-					deadEnd = false;
-			 		if(!sol.empty()) sol.pop();
-					sol.push(0);
-					flag = true;
-			}
-		if(deadEnd && canTravel(x, y, 2) && beenhere[left] == 1) {
+			structure.push(right);
+			deadEnd = false;
+	 		if(!sol.empty()) sol.pop();
+		//	sol.push(0);
+			flag = true;
+		}
+		else if(deadEnd && canTravel(x, y, 2) && beenhere[left] == 1) {
 			structure.push(left);
 			deadEnd = false;
 			if(!sol.empty()) sol.pop();
-			sol.push(2);
+	//		sol.push(2);
 			flag = true;
 		}
-		if(deadEnd && canTravel(x, y, 3) && beenhere[up] == 1) {
+		else if(deadEnd && canTravel(x, y, 3) && beenhere[up] == 1) {
 			structure.push(up);
 			deadEnd = false;
 			if(!sol.empty())	sol.pop();
-			sol.push(3);
+	//		sol.push(3);
 			flag = true;
 		}
-		if(deadEnd && canTravel(x, y, 1) && beenhere[down] == 1) {
+		else if(deadEnd && canTravel(x, y, 1) && beenhere[down] == 1) {
 			structure.push(down);
 			deadEnd = false;
 			if(!sol.empty())sol.pop();
-			sol.push(1);
+	//		sol.push(1);
 			flag = true;
 		} 
 
