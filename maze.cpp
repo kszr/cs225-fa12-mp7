@@ -287,11 +287,11 @@ PNG * SquareMaze::drawMazeWithSolution()
 						pixel->red = 255;
 						pixel->blue = pixel->green = 0;
 						break;
-				case 2:	pixel = (*thing)(x-j, y);
+				case 2:	pixel = (*thing)(x-11+j, y);
 						pixel->red = 255;
 						pixel->blue = pixel->green = 0;
 						break;
-				case 3:	pixel = (*thing)(x, y-j);
+				case 3:	pixel = (*thing)(x, y-11+j);
 						pixel-> red = 255;
 						pixel->blue = pixel->green = 0;
 				default: break;
