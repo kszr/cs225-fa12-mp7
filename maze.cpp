@@ -138,6 +138,7 @@ void SquareMaze::setWall(int x, int y, int dir, bool exists)
 	}
 }
 
+#include <stack>
 #include <iostream>
 using namespace std;
 vector<int> SquareMaze::solveMaze()
@@ -145,13 +146,18 @@ vector<int> SquareMaze::solveMaze()
 	/**
  	 * Finds the cell farthest away from the entrance.
  	 */
-	queue<int> structure;
-	queue<int> sol;
+	stack<int> structure;
+	stack<int> sol;
 	structure.push(0);
 	
+	/**
+     * 0 - not visited
+     * 1 - visited once 
+     * 2 - visited twice (that is, a backtracked path)
+     */
 	vector<int> beenhere;
 	for(int i=0; i<width*height; i++)
-		beenhere.push_back(false);
+		beenhere.push_back(0);
 
 	int exitX; //The x-coordinate of the exit
 	int flag = false; //Something that obviates segmentation faults
@@ -161,52 +167,63 @@ vector<int> SquareMaze::solveMaze()
 	//as it hits the bottom of the grid.
 	while(!structure.empty())
 	{
-		int curr = structure.back();
+		int curr = structure.top();
 		structure.pop();
+
+		if(sol.empty()) flag = false;
 
 		if(flag)
 		{
-			int dir = sol.back();
+			int dir = sol.top();
 			sol.pop();
-			solution.push_back(dir);
+			if(beenhere[curr] != 2)
+				solution.push_back(dir);
 		}
 		//It should attempt to dequeue from the solution queue
 		//only after the first iteration.
-		flag = true;
+	//	flag = true;
 		//Mark the current cell as processed.
-		beenhere[curr] = true;
+		beenhere[curr]++;
 		
 		int x = curr%width;
 		int y = curr/width;
 		
+		if(y == height-1)
+		{
+			exitX = x;
+			break;
+		}
 		int right = x+1 + y*width;
 		int down = x + (y+1)*width;
 		int left = x-1 + y*width;
 		int up = x + (y-1)*width;
 
-		if(canTravel(x, y, 0) && !beenhere[right])
-		{
+		if(canTravel(x, y, 0) && beenhere[right] != 2)
+		{   
 			structure.push(right);
 			sol.push(0);
+			flag = true;
 		}
-		else if(canTravel(x, y, 1) && !beenhere[down])
+		else if(canTravel(x, y, 1) && beenhere[down] != 2)
 		{
 			structure.push(down);
 			sol.push(1);
+			flag = true;
 		}
-		else if(canTravel(x, y, 2) && !beenhere[left])
+		else if(canTravel(x, y, 2) && beenhere[left] != 2)
 		{
 			structure.push(left);
 			sol.push(2);
+			flag = true;
 		}
-		else if(canTravel(x, y, 3) && !beenhere[up])
+		else if(canTravel(x, y, 3) && beenhere[up] != 2)
 		{
 			structure.push(up);
 			sol.push(3);
+			flag = true;
 		}
-		else break;
+		else if(beenhere[curr] == 1) structure.push(curr);
 
-		exitX = curr%width;
 	}
 	for(int i=0; i<solution.size(); i++)
 		cout << solution[i] << endl;
