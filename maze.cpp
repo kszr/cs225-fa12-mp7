@@ -222,19 +222,19 @@ vector<int> SquareMaze::solveMaze()
 			sol.push(3);
 			flag = true;
 		}
-		else if(beenhere[right] == 1) {
+		else if(canTravel(x, y, 0) && beenhere[right] == 1) {
 			structure.push(right);
 			flag = true;
 		}
-		else if(beenhere[left] == 1) {
+		else if(canTravel(x, y, 2) && beenhere[left] == 1) {
 			structure.push(left);
 			flag = true;
 		}
-		else if(beenhere[up] == 1) {
+		else if(canTravel(x, y, 3) && beenhere[up] == 1) {
 			structure.push(up);
 			flag = true;
 		}
-		else if(beenhere[down] == 1) {
+		else if(canTravel(x, y, 1) && beenhere[down] == 1) {
 			structure.push(down);
 			flag = true;
 		} 
