@@ -222,8 +222,10 @@ vector<int> SquareMaze::solveMaze()
 			sol.push(3);
 			flag = true;
 		}
-		else if(beenhere[curr] == 1) structure.push(curr);
-
+		else if(beenhere[right] == 1) structure.push(right);
+		else if(beenhere[down] == 1) structure.push(down);
+		else if(beenhere[left] == 1) structure.push(left);
+		else if(beenhere[up] == 1) structure.push(up);
 		beenhere[curr] ++;
 	}
 	for(int i=0; i<solution.size(); i++)
