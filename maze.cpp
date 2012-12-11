@@ -146,8 +146,8 @@ vector<int> SquareMaze::solveMaze()
 	/**
  	 * Finds the cell farthest away from the entrance.
  	 */
-	stack<int> structure;
-	stack<int> sol;
+	queue<int> structure;
+	queue<int> sol;
 	structure.push(0);
 	
 	/**
@@ -167,16 +167,15 @@ vector<int> SquareMaze::solveMaze()
 	//as it hits the bottom of the grid.
 	while(!structure.empty())
 	{
-		int curr = structure.top();
+		int curr = structure.back();
 		structure.pop();
 
 		if(sol.empty()) flag = false;
 
 		if(flag)
 		{
-			int dir = sol.top();
+			int dir = sol.back();
 			sol.pop();
-			if(beenhere[curr] != 2)
 				solution.push_back(dir);
 		}
 		//It should attempt to dequeue from the solution queue
@@ -188,75 +187,42 @@ vector<int> SquareMaze::solveMaze()
 		int x = curr%width;
 		int y = curr/width;
 		
-		if(y == height-1)
-		{
-			exitX = x;
-			break;
-		}
 		int right = x+1 + y*width;
 		int down = x + (y+1)*width;
 		int left = x-1 + y*width;
 		int up = x + (y-1)*width;
-
-		bool deadEnd = true;
-		if(canTravel(x, y, 0) && beenhere[right] == 0)
-		{   
-			structure.push(right);
+		
+		if(beenhere[right] != 0 && canTravel(x, y, 0))
+		{	
+			flag = true;
 			sol.push(0);
-			flag = true;
-			deadEnd = false;
-		}
-		if(canTravel(x, y, 1) && beenhere[down] == 0)
-		{
-			structure.push(down);
-			sol.push(1);
-			flag = true;
-			deadEnd = false;
-		}
-		if(canTravel(x, y, 2) && beenhere[left] == 0)
-		{
-			structure.push(left);
-			sol.push(2);
-			flag = true;	
-			deadEnd = false;
-		}
-		if(canTravel(x, y, 3) && beenhere[up] == 0)
-		{
-			structure.push(up);
-			sol.push(3);
-			flag = true;
-			deadEnd = false;
-		}
-		if(deadEnd && canTravel(x, y, 0) && beenhere[right] == 1) {
 			structure.push(right);
-			deadEnd = false;
-	 		if(!sol.empty()) sol.pop();
-			sol.push(0);
-			flag = true;
 		}
-		else if(canTravel(x, y, 2) && beenhere[left] == 1) {
-			structure.push(left);
-			deadEnd = false;
-			if(!sol.empty()) sol.pop();
-			sol.push(2);
+		if(beenhere[down] != 0 && canTravel(x, y, 1))
+		{
 			flag = true;
-		}
-		else if(canTravel(x, y, 3) && beenhere[up] == 1) {
-			structure.push(up);
-			deadEnd = false;
-			if(!sol.empty())	sol.pop();
-			sol.push(3);
-			flag = true;
-		}
-		else if(canTravel(x, y, 1) && beenhere[down] == 1) {
-			structure.push(down);
-			deadEnd = false;
-			if(!sol.empty())sol.pop();
 			sol.push(1);
+			structure.push(down);	
+		}
+		if(beenhere[left] !=0 && canTravel(x, y, 2))
+		{
 			flag = true;
-		} 
+			sol.push(2);
+			structure.push(left);
+		}
+		if(beenhere[up] !=0 && canTravel(x, y, 3))
+		{
+			flag = true;
+			sol.push(3);
+			structure.push(left);
+		}
+		if(y == height - 1)
+		{
+			exitX = x;
+			break;
+		}
 
-		beenhere[curr] ++;
+		beenhere[curr] = 1;
 	}
 	for(int i=0; i<solution.size(); i++)
 		cout << solution[i] << endl;
