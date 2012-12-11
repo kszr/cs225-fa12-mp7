@@ -138,33 +138,6 @@ void SquareMaze::setWall(int x, int y, int dir, bool exists)
 	}
 }
 
-/**
- * Returns the length of the path from the start of the maze to the specified
- * coordinate at the bottom of the maze.
- */
-int SquareMaze::pathfinder(int x, int y, int destX, int destY, vector<bool> & beenhere)
-{
-	if(y == destY && x == destX)
-		return 1;
-	
-	int cell = x + y*width;
-	
-	beenhere[cell] = true;
-
-	if(x < destX && canTravel(x, y, 0) && !beenhere[x+1 + y*width])
-			return 1 + pathfinder(x+1, y, destX, destY, beenhere);
-	if(canTravel(x, y, 3) && !beenhere[x + (y-1)*width])
-			return 1 + pathfinder(x, y-1, destX, destY, beenhere);
-
-	if(y < destY && canTravel(x, y, 1) && !beenhere[x + (y+1)*width])
-			return 1 + pathfinder(x, y+1, destX, destY, beenhere);
-
-	if(canTravel(x, y, 2) && !beenhere[x-1 + y*width])
-		return 1 + pathfinder(x-1, y, destX, destY, beenhere);
-
-	return 0;
-
-}
 #include <iostream>
 using namespace std;
 vector<int> SquareMaze::solveMaze()
@@ -217,22 +190,22 @@ vector<int> SquareMaze::solveMaze()
 		int left = x-1 + y*width;
 		int up = x + (y-1)*width;
 
-		if(!beenhere[right] && canTravel(x, y, 0))
+		if(canTravel(x, y, 0) && !beenhere[right])
 		{
 			structure.push(right);
 			sol.push(0);
 		}
-		if(!beenhere[down] && canTravel(x, y, 1))
+		if(canTravel(x, y, 1) && !beenhere[down])
 		{
 			structure.push(down);
 			sol.push(1);
 		}
-		if(!beenhere[left] && canTravel(x, y, 2))
+		if(canTravel(x, y, 2) && !beenhere[left])
 		{
 			structure.push(left);
 			sol.push(2);
 		}
-		if(!beenhere[up] && canTravel(x, y, 3))
+		if(canTravel(x, y, 3) && !beenhere[up])
 		{
 			structure.push(up);
 			sol.push(3);
@@ -243,47 +216,6 @@ vector<int> SquareMaze::solveMaze()
 		cout << solution[i] << endl;
 	return solution;
 }	
-
-/**
- * Creates the solution vector.
- */
-void SquareMaze::makeVector(int x, int y, int destX, int destY, vector<int> & solution, vector<bool> & beenhere)
-{
-	if(y == destY && x == destX)
-		return;
-
-	int cell = x + y*width;
-	beenhere[cell] = true;
-
-    if(x < destX && canTravel(x, y, 0) && !beenhere[x+1 + y*width])
-    {
-		solution.push_back(0);
-		makeVector(x+1, y, destX, destY, solution, beenhere);
-		return;
-	}
-
-	if(canTravel(x, y, 3) && !beenhere[x + (y-1)*width])
-    {
-        solution.push_back(3);
-        makeVector(x, y-1, destX, destY, solution, beenhere);
-		return;
-    }
- 
-    if(y < destY && canTravel(x, y, 1) && !beenhere[x + (y+1)*width])
-    {
-		solution.push_back(1);
-		makeVector(x, y+1, destX, destY, solution, beenhere);
-		return;
-	}
-
-    if(canTravel(x, y, 2) && !beenhere[x-1 + y*width])
-	{
-		solution.push_back(2);
-		makeVector(x-1, y, destX, destY, solution, beenhere);
-        return;
-	}
-
-}
 
 
 PNG * SquareMaze::drawMaze() const
@@ -342,5 +274,44 @@ PNG * SquareMaze::drawMazeWithSolution()
 {
 	PNG * thing = drawMaze();
 	vector<int> solution = solveMaze();
+	
+	int x=5, y=5;
+	for(int i=0; i<solution.size(); i++)
+	{
+		for(int j=0; j<11; j++)
+		{
+			RGBAPixel * pixel;
+			switch(solution[i])
+			{
+				case 0: pixel = (*thing)(x+j, y);
+						pixel->red = 255;
+						pixel->blue = pixel->green = 0;
+						break;
+				case 1:	pixel = (*thing)(x, y+j);
+						pixel->red = 255;
+						pixel->blue = pixel->green = 0;
+						break;
+				case 2:	pixel = (*thing)(x-j, y);
+						pixel->red = 255;
+						pixel->blue = pixel->green = 0;
+						break;
+				case 3:	pixel = (*thing)(x, y-j);
+						pixel-> red = 255;
+						pixel->blue = pixel->green = 0;
+				default: break;
+			}
+		}
+		switch(solution[i])
+		{
+			case 0: x += 11;
+					break;
+			case 1: y += 11;
+					break;
+			case 2:	x -= 11;
+					break;
+			case 3:	y -= 11;
+			default: break;
+		}
+	}	
 	return thing;
 }
