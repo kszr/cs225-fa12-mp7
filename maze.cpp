@@ -227,7 +227,7 @@ vector<int> SquareMaze::solveMaze()
 			flag = true;
 			deadEnd = false;
 		}
-		if(canTravel(x, y, 0) && beenhere[right] == 1) {
+		if(deadEnd && canTravel(x, y, 0) && beenhere[right] == 1) {
 			structure.push(right);
 			deadEnd = false;
 	 		if(!sol.empty()) sol.pop();
