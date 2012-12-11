@@ -198,7 +198,7 @@ std::cout<<"MAX: " << max<<endl;
 	makeVector(0, 0, exitX, height-1, solution, beenhere);
 
 	for(int i=0; i < solution.size(); i++)
-		std::cout<<solution[i]<<endl;
+std::cout<<solution[i]<<endl;
 	return solution;
 }
 
