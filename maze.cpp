@@ -198,50 +198,60 @@ vector<int> SquareMaze::solveMaze()
 		int left = x-1 + y*width;
 		int up = x + (y-1)*width;
 
+		bool deadEnd = true;
 		if(canTravel(x, y, 0) && beenhere[right] == 0)
 		{   
 			structure.push(right);
 			sol.push(0);
 			flag = true;
+			deadEnd = false;
 		}
-		else if(canTravel(x, y, 1) && beenhere[down] == 0)
+		if(canTravel(x, y, 1) && beenhere[down] == 0)
 		{
 			structure.push(down);
 			sol.push(1);
 			flag = true;
+			deadEnd = false;
 		}
-		else if(canTravel(x, y, 2) && beenhere[left] == 0)
+		if(canTravel(x, y, 2) && beenhere[left] == 0)
 		{
 			structure.push(left);
 			sol.push(2);
-			flag = true;
+			flag = true;	
+			deadEnd = false;
 		}
-		else if(canTravel(x, y, 3) && beenhere[up] == 0)
+		if(canTravel(x, y, 3) && beenhere[up] == 0)
 		{
 			structure.push(up);
 			sol.push(3);
 			flag = true;
+			deadEnd = false;
 		}
-		else if(canTravel(x, y, 0) && beenhere[right] == 1) {
-			structure.push(right);
-			if(!sol.empty()) sol.pop();
-			sol.push(0);
-			flag = true;
-		}
-		else if(canTravel(x, y, 2) && beenhere[left] == 1) {
+		if(deadEnd && canTravel(x, y, 0) && beenhere[right] == 1) {
+			 
+					structure.push(right);
+					deadEnd = false;
+			 		if(!sol.empty()) sol.pop();
+					sol.push(0);
+					flag = true;
+			}
+		if(deadEnd && canTravel(x, y, 2) && beenhere[left] == 1) {
 			structure.push(left);
+			deadEnd = false;
 			if(!sol.empty()) sol.pop();
 			sol.push(2);
 			flag = true;
 		}
-		else if(canTravel(x, y, 3) && beenhere[up] == 1) {
+		if(deadEnd && canTravel(x, y, 3) && beenhere[up] == 1) {
 			structure.push(up);
+			deadEnd = false;
 			if(!sol.empty())	sol.pop();
 			sol.push(3);
 			flag = true;
 		}
-		else if(canTravel(x, y, 1) && beenhere[down] == 1) {
+		if(deadEnd && canTravel(x, y, 1) && beenhere[down] == 1) {
 			structure.push(down);
+			deadEnd = false;
 			if(!sol.empty())sol.pop();
 			sol.push(1);
 			flag = true;
