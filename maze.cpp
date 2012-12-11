@@ -224,18 +224,26 @@ vector<int> SquareMaze::solveMaze()
 		}
 		else if(canTravel(x, y, 0) && beenhere[right] == 1) {
 			structure.push(right);
+			if(!sol.empty()) sol.pop();
+			sol.push(0);
 			flag = true;
 		}
 		else if(canTravel(x, y, 2) && beenhere[left] == 1) {
 			structure.push(left);
+			if(!sol.empty()) sol.pop();
+			sol.push(2);
 			flag = true;
 		}
 		else if(canTravel(x, y, 3) && beenhere[up] == 1) {
 			structure.push(up);
+			if(!sol.empty())	sol.pop();
+			sol.push(3);
 			flag = true;
 		}
 		else if(canTravel(x, y, 1) && beenhere[down] == 1) {
 			structure.push(down);
+			if(!sol.empty())sol.pop();
+			sol.push(1);
 			flag = true;
 		} 
 
