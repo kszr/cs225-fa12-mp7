@@ -181,7 +181,7 @@ vector<int> SquareMaze::solveMaze()
 		}
 		//It should attempt to dequeue from the solution queue
 		//only after the first iteration.
-	//	flag = true;
+//		flag = true;
 		//Mark the current cell as processed.
 	//	beenhere[curr]++;
 		
@@ -227,32 +227,32 @@ vector<int> SquareMaze::solveMaze()
 			flag = true;
 			deadEnd = false;
 		}
-		if(deadEnd && canTravel(x, y, 0) && beenhere[right] == 1) {
+		if(canTravel(x, y, 0) && beenhere[right] == 1) {
 			structure.push(right);
 			deadEnd = false;
 	 		if(!sol.empty()) sol.pop();
-		//	sol.push(0);
+			sol.push(0);
 			flag = true;
 		}
-		else if(deadEnd && canTravel(x, y, 2) && beenhere[left] == 1) {
+		else if(canTravel(x, y, 2) && beenhere[left] == 1) {
 			structure.push(left);
 			deadEnd = false;
 			if(!sol.empty()) sol.pop();
-	//		sol.push(2);
+			sol.push(2);
 			flag = true;
 		}
-		else if(deadEnd && canTravel(x, y, 3) && beenhere[up] == 1) {
+		else if(canTravel(x, y, 3) && beenhere[up] == 1) {
 			structure.push(up);
 			deadEnd = false;
 			if(!sol.empty())	sol.pop();
-	//		sol.push(3);
+			sol.push(3);
 			flag = true;
 		}
-		else if(deadEnd && canTravel(x, y, 1) && beenhere[down] == 1) {
+		else if(canTravel(x, y, 1) && beenhere[down] == 1) {
 			structure.push(down);
 			deadEnd = false;
 			if(!sol.empty())sol.pop();
-	//		sol.push(1);
+			sol.push(1);
 			flag = true;
 		} 
 
