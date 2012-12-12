@@ -4,6 +4,7 @@
 #include <time.h>
 #include <climits>
 #include <queue>
+
 /**
  * The default constructor.
  */
@@ -106,16 +107,18 @@ int SquareMaze::randgen()
 /** 
  * Each cell is given a unique number. Cells are numbered
  * from left to right in each row.
+ *
+ * (It is hoped that this function works as it should.)
  */
 bool SquareMaze::canTravel(int x, int y, int dir) const
 {
-	int cell = y*width + x;
+	int cell = x + y*width;
 	switch(dir)
 	{
 		case 0: return (x+1 < width) && !rwalls[cell];
 		case 1: return (y+1 < height) && !dwalls[cell];
-		case 2: return (x-1 > -1) && !rwalls[cell-1];
-		case 3: return (y-1 > -1) && !dwalls[cell-width];
+		case 2: return (x-1 > -1) && !rwalls[cell-1]; //The cell to the left
+		case 3: return (y-1 > -1) && !dwalls[cell-width]; //The cell above
 
 		default: return false;
 	}
@@ -123,7 +126,6 @@ bool SquareMaze::canTravel(int x, int y, int dir) const
 
 /**
  * NOTES:
-
  * Read the notes above the makeMaze function for information on
  * the schemata used to represent walls.
  */
@@ -139,36 +141,30 @@ void SquareMaze::setWall(int x, int y, int dir, bool exists)
 	}
 }
 
-#include <stack>
 #include <iostream>
 using namespace std;
 vector<int> SquareMaze::solveMaze()
 {
 	/**
- 	 * Finds the cell farthest away from the entrance.
+ 	 * Uses breadth-first search.
  	 */
 	queue<int> structure;
-	queue<int> sol;
 	structure.push(0);
 	
-	/**
-     * 0 - not visited
-     * 1 - visited once 
-     * 2 - visited twice (that is, a backtracked path)
-     */
 	vector<bool> beenhere;
+	//Initialize all the cells as unvisited.
 	for(int i=0; i<width*height; i++)
 		beenhere.push_back(false);
 
 	int exitX = -1; //The x-coordinate of the exit
-//	int flag = false; //Something that obviates segmentation faults
-	vector<int> solution;
+
  	vector<int> prev;
+
 	while(!structure.empty())
 	{
-		int curr = structure.back();
-		structure.pop();
-		beenhere[curr] = true;
+		int curr = structure.back(); //Remove a cell from the ordering structure.
+		structure.pop();					
+		beenhere[curr] = true; //Mark it as having been visited.
 		
 		int x = curr%width;
 		int y = curr/width;
@@ -178,6 +174,11 @@ vector<int> SquareMaze::solveMaze()
 		int left = x-1 + y*width;
 		int up = x + (y-1)*width;
 
+		/**
+		 * Add any neighboring cells to which it is possible to
+		 * travel in a single step, and which have not been
+		 * visited yet.
+		 */
 		if(canTravel(x, y, 0) && !beenhere[right])
 			structure.push(right);
 		if(canTravel(x, y, 1) && !beenhere[down])
@@ -187,29 +188,27 @@ vector<int> SquareMaze::solveMaze()
 		if(canTravel(x, y, 3) && !beenhere[up])
 			structure.push(up);
 
+		//Save the previous cell, in order to generate the solution later.
 		prev.push_back(curr);
-		cout << structure.size() << endl;	
+	
+cout << structure.size() << endl;	
+		
 		exitX = x;
+
 		if(y == height-1)
-		{
-		//	exitX = x;
-			break;
-		}
+			break; //A bit optimistic at this point.
+
 	}	
 
-cout << "EXIT: " << exitX << endl;;
+	vector<int> solution;
 
-	for(int i=0; i<prev.size(); i++);
-	//	cout << prev[i] << endl;
-	//Performs a breadth-first search. Exits as soon
-	//as it hits the bottom of the grid.
-    
-	//for(int i=0; i<solution.size(); i++)
-	//	cout << solution[i] << endl;
+cout << "EXIT: " << exitX << endl;;
 	return solution;
 }	
 
-
+/**
+ * This works as it should.
+ */
 PNG * SquareMaze::drawMaze() const
 {
 	PNG * thing = new PNG(10*width + 1, 10*height + 1);
@@ -262,6 +261,9 @@ PNG * SquareMaze::drawMaze() const
 	return thing;
 }
 
+/**
+ * The last time I checked, this worked fine.
+ */
 PNG * SquareMaze::drawMazeWithSolution()
 {
 	PNG * thing = drawMaze();
