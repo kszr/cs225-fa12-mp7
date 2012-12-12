@@ -259,7 +259,7 @@ vector<int> SquareMaze::solveMaze()
 		 * This addresses a special though arbitrary tie-breaking
 		 * case adumbrated in the documentation.
 		 */
-		if(distance == localDist)
+		else if(distance == localDist)
 		{
 			exitX = exitX < cell%width? exitX : cell%width;
 		}
