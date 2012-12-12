@@ -123,6 +123,7 @@ bool SquareMaze::canTravel(int x, int y, int dir) const
 
 /**
  * NOTES:
+
  * Read the notes above the makeMaze function for information on
  * the schemata used to represent walls.
  */
@@ -155,34 +156,19 @@ vector<int> SquareMaze::solveMaze()
      * 1 - visited once 
      * 2 - visited twice (that is, a backtracked path)
      */
-	vector<int> beenhere;
+	vector<bool> beenhere;
 	for(int i=0; i<width*height; i++)
-		beenhere.push_back(0);
+		beenhere.push_back(false);
 
-	int exitX; //The x-coordinate of the exit
+	int exitX = -1; //The x-coordinate of the exit
 	int flag = false; //Something that obviates segmentation faults
 	vector<int> solution;
-	
-	//Performs a breadth-first search. Exits as soon
-	//as it hits the bottom of the grid.
+ 	vector<int> prev;
 	while(!structure.empty())
 	{
 		int curr = structure.back();
 		structure.pop();
-
-		if(sol.empty()) flag = false;
-
-		if(flag)
-		{
-			int dir = sol.back();
-			sol.pop();
-				solution.push_back(dir);
-		}
-		//It should attempt to dequeue from the solution queue
-		//only after the first iteration.
-//		flag = true;
-		//Mark the current cell as processed.
-	//	beenhere[curr]++;
+		beenhere[curr] = true;
 		
 		int x = curr%width;
 		int y = curr/width;
@@ -191,41 +177,35 @@ vector<int> SquareMaze::solveMaze()
 		int down = x + (y+1)*width;
 		int left = x-1 + y*width;
 		int up = x + (y-1)*width;
-		
-		if(beenhere[right] == 0 && canTravel(x, y, 0))
-		{	
-			flag = true;
-			sol.push(0);
+
+		if(canTravel(x, y, 0) && !beenhere[right])
 			structure.push(right);
-		}
-		if(beenhere[down] == 0 && canTravel(x, y, 1))
-		{
-			flag = true;
-			sol.push(1);
-			structure.push(down);	
-		}
-		if(beenhere[left] ==0 && canTravel(x, y, 2))
-		{
-			flag = true;
-			sol.push(2);
+		if(canTravel(x, y, 1) && !beenhere[down])
+			structure.push(down);
+		if(canTravel(x, y, 2) && !beenhere[left])
 			structure.push(left);
-		}
-		if(beenhere[up] ==0 && canTravel(x, y, 3))
+		if(canTravel(x, y, 3) && !beenhere[up])
+			structure.push(up);
+
+		prev.push_back(curr);
+		cout << structure.size() << endl;	
+		exitX = x;
+		if(y == height-1)
 		{
-			flag = true;
-			sol.push(3);
-			structure.push(left);
-		}
-		if(y == height - 1)
-		{
-			exitX = x;
+		//	exitX = x;
 			break;
 		}
+	}	
 
-		beenhere[curr] = 1;
-	}
-	for(int i=0; i<solution.size(); i++)
-		cout << solution[i] << endl;
+cout << "EXIT: " << exitX << endl;;
+
+	for(int i=0; i<prev.size(); i++);
+	//	cout << prev[i] << endl;
+	//Performs a breadth-first search. Exits as soon
+	//as it hits the bottom of the grid.
+    
+	//for(int i=0; i<solution.size(); i++)
+	//	cout << solution[i] << endl;
 	return solution;
 }	
 
