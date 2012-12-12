@@ -191,8 +191,8 @@ vector<int> SquareMaze::solveMaze()
 		//Save the previous cell, in order to generate the solution later.
 		prev.push_back(curr);
 	
-cout << structure.size() << endl;	
-		
+//cout << structure.size() << endl;	
+cout << curr << endl;		
 		exitX = x;
 
 		if(y == height-1)
