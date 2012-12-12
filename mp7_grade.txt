@@ -1,7 +1,7 @@
 Monad Autograder
-Testing mp7 at 2012-12-11 00:38:21
+Testing mp7 at 2012-12-12 00:45:58
 
-"Always code as if the guy who ends up maintaining your code will be a violent psychopath who knows where you live. Code for readability." ~ John Woods
+"We know about as much about software quality problems as they knew about the Black Plague in the 1600s. We've seen the victims' agonies and helped burn the corpses. We don't know what causes it; we don't really know if there is only one disease. We just suffer -- and keep pouring our sewage into our water supply." ~ Tom Van Vleck
 
 Setting up test environment...
 Compiling...
@@ -23,7 +23,7 @@ testMakeMazeRandom  . . . [5 pts] - passed
 testSolveMazeValidPath  . [5 pts] - FAILED
 testSolutionBottomRow . . [5 pts] - FAILED
 testSolutionCorrectSquare [5 pts] - FAILED
-testSolveMazeSmall  . . . [5 pts] - passed
+testSolveMazeSmall  . . . [5 pts] - FAILED
 testSolveMazeLarge  . . . [5 pts] - FAILED
 testDrawMazeSmall . . . . [5 pts] - FAILED
 testDrawMazeMed . . . . . [5 pts] - FAILED
@@ -34,5 +34,5 @@ testDrawSolutionLarge . . [5 pts] - FAILED
 
 Total score...
 ================================================================
-TOTAL SCORE: 50
+TOTAL SCORE: 45
 
