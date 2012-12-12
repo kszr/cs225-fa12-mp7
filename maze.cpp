@@ -166,7 +166,6 @@ vector<int> SquareMaze::solveMaze()
 	{
 		int curr = structure.front(); //Remove a cell from the ordering structure.
 		structure.pop();					
-		prev.push_back(curr); //More breadcrumbs
 		beenhere[curr] = true; //Mark this cell as having been visited.
 		distance++; //Update the distance it has moved.
 
@@ -184,14 +183,25 @@ vector<int> SquareMaze::solveMaze()
 		 * visited yet.
 		 */
 		if(canTravel(x, y, 0) && !beenhere[right])
+	    {
 			structure.push(right);
+			prev.push_back(curr);
+		}
 		if(canTravel(x, y, 1) && !beenhere[down])
+		{
 			structure.push(down);
+			prev.push_back(curr);
+		}
 		if(canTravel(x, y, 2) && !beenhere[left])
+		{
 			structure.push(left);
+			prev.push_back(curr);
+		}
 		if(canTravel(x, y, 3) && !beenhere[up])
+		{
 			structure.push(up);
-
+			prev.push_back(curr);
+		}
 		//Save the previous cell, in order to generate the solution later.
 
 		if(y == height-1)
