@@ -141,9 +141,6 @@ void SquareMaze::setWall(int x, int y, int dir, bool exists)
 	}
 }
 
-int distance = 0;
-int currentBest = 0;
-
 #include <iostream>
 using namespace std;
 vector<int> SquareMaze::solveMaze()
@@ -163,6 +160,8 @@ vector<int> SquareMaze::solveMaze()
 
  	vector<int> prev;
 
+	int distance = 0;
+    int currentBest = 0;
 	while(!structure.empty())
 	{
 		int curr = structure.front(); //Remove a cell from the ordering structure.
