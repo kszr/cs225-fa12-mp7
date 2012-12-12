@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <climits>
+#include <stack>
 #include <queue>
 #include <map>
 
@@ -159,11 +160,12 @@ vector<int> SquareMaze::solveMaze()
 
 	int exitX = -1; //The x-coordinate of the exit
 
-	//Each
+	/**
+	 * Each key represents a cell, and has as its value
+	 * the cell whence it was reached.
+	 */
  	map<int, int> prev; //A breadcrumb trail, if we are lucky.
-	
-	int distance = 0;
-    int currentBest = 0;
+
 	while(!structure.empty())
 	{
 		int curr = structure.front(); //Remove a cell from the ordering structure.
@@ -182,66 +184,124 @@ vector<int> SquareMaze::solveMaze()
 		/**
 		 * Add any neighboring cells to which it is possible to
 		 * travel in a single step, and which have not been
-		 * visited yet.
+		 * visited yet. Also make entries for them in the 
+		 * map, in order that it be possible to trace paths through
+		 * the maze later.
 		 */
 		if(canTravel(x, y, 0) && !beenhere[right])
 	    {
 			structure.push(right);
-			prev.push_back(curr);
+			prev[right] = curr;
 		}
 		if(canTravel(x, y, 1) && !beenhere[down])
 		{
 			structure.push(down);
-			prev.push_back(curr);
+			prev[down] = curr;
 		}
 		if(canTravel(x, y, 2) && !beenhere[left])
 		{
 			structure.push(left);
-			prev.push_back(curr);
+			prev[left] = curr;
 		}
 		if(canTravel(x, y, 3) && !beenhere[up])
 		{
 			structure.push(up);
-			prev.push_back(curr);
+			prev[up] = curr;
 		}
-		//Save the previous cell, in order to generate the solution later.
 
-		if(y == height-1)
-		{
-			if(currentBest < distance)
-			{
-				currentBest = distance;
-				exitX = x;
-			}
-			else if(currentBest == distance)
-				exitX = x < exitX? x : exitX;
-		}
 	}	
 
-	cout << "EXIT: " << exitX << endl;
-	cout << "Distance: " << currentBest << endl;
+	/**
+	 * These will eventually have the values of the x-coordinate
+	 * of the exit and the distance of the exit from the start.
+	 */
+	int exitX = 0, distance = 0;
 
-	vector<int> solution;
-	prev.erase(prev.begin()); //Remove the first element. It is not needed.
-
-	int currX=0; int currY=0;
-	for(int i=0; i<prev.size(); i++)
+	/**
+	 * By the end of this for loop, we shall have the position
+	 * of the exit.
+	 */
+	for(int i=0; i<width; i++)
 	{
-		int cell = prev[i];
-		int x = cell%width;
-		int y = cell/width;
+		/**
+		 * We are only interested in the cells in the bottom row
+		 * of the grid. More specifically, we wish to find the 
+		 * cell from which the distance to the start is the longest
+		 * We also assume that the breadth-first search succeeded
+		 * in adding every cell of the grid to the map. 
+		 */
+		int cell = i + (height-1)*width;
 
-		if(currX + 1 == x)
-			solution.push_back(0);
-		if(currY + 1 == y)
-			solution.push_back(1);
-		if(currX - 1 == x)
-			solution.push_back(2);
-		if(currY - 1 == y)
-			solution.push_back(3);
+		//The distance of the given path from the start.
+		int localDist = 0;
 
-		currX = x;
-		currY = y;
+		/**
+		 * Calculate the distance of the current cell from the 
+		 * start.
+		 */
+		while(cell != 0)
+		{
+			cell = prev[cell]; //This is the previous cell.
+			localDist++;
+		}
+
+		/**
+		 * Compare this distance with the best so far. We wish to
+		 * find the largest distance, so perform the necessary
+		 * operations to this end.
+		 */
+		if(distance < localDist)
+		{
+			distance = localDist;
+			exitX = cell%width;
+		}
+		/**
+		 * This addresses a special though arbitrary tie-breaking
+		 * case adumbrated in the documentation.
+		 */
+		if(distance == localDist)
+		{
+			exitX = exitX < cell%width? exitX : cell%width;
+		}
+	}
+
+	/**
+	 * Now it remains for us to generate the solution vector.
+	 * This will be done first by pushing the necessary values
+	 * onto a stack, and then copying them over to the solution
+	 * vector, and will save us the need to reverse the vector
+	 * once it has been generated.
+	 */
+	stack<int> sol;
+	int derp = exitX + (height-1)*width;
+	while(derp != 0)
+	{
+		currX = derp%width;
+		currY = derp/width;
+		
+		herp = prev[derp];
+		prevX = herp%width;
+		prevY = herp/width;
+
+		if(prevX+1 == currX)
+			sol.push(0);
+		else if(prevY+1 == currY)
+			sol.push(1);
+		else if(prevX-1 == currX)
+			sol.push(2);
+		else sol.push(3);
+
+		derp = herp;
+	}
+
+	/**
+	 * Now we copy the elements of the stack to the solution vector
+	 */
+	vector<int> solution;
+	while(!sol.empty())
+	{
+		solution.push_back(sol.top());
+		sol.pop();
 	}
 
 	return solution;
