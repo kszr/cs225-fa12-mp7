@@ -158,7 +158,6 @@ vector<int> SquareMaze::solveMaze()
 	for(int i=0; i<width*height; i++)
 		beenhere.push_back(false);
 
-	int exitX = -1; //The x-coordinate of the exit
 
 	/**
 	 * Each key represents a cell, and has as its value
@@ -171,7 +170,6 @@ vector<int> SquareMaze::solveMaze()
 		int curr = structure.front(); //Remove a cell from the ordering structure.
 		structure.pop();					
 		beenhere[curr] = true; //Mark this cell as having been visited.
-		distance++; //Update the distance it has moved.
 
 		int x = curr%width;
 		int y = curr/width;
@@ -276,12 +274,12 @@ vector<int> SquareMaze::solveMaze()
 	int derp = exitX + (height-1)*width;
 	while(derp != 0)
 	{
-		currX = derp%width;
-		currY = derp/width;
+		int currX = derp%width;
+		int currY = derp/width;
 		
-		herp = prev[derp];
-		prevX = herp%width;
-		prevY = herp/width;
+		int herp = prev[derp];
+		int prevX = herp%width;
+		int prevY = herp/width;
 
 		if(prevX+1 == currX)
 			sol.push(0);
