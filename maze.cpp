@@ -161,7 +161,7 @@ vector<int> SquareMaze::solveMaze()
 		beenhere.push_back(false);
 
 	int exitX = -1; //The x-coordinate of the exit
-	int flag = false; //Something that obviates segmentation faults
+//	int flag = false; //Something that obviates segmentation faults
 	vector<int> solution;
  	vector<int> prev;
 	while(!structure.empty())
