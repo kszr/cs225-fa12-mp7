@@ -141,6 +141,9 @@ void SquareMaze::setWall(int x, int y, int dir, bool exists)
 	}
 }
 
+int distance = 0;
+int currentBest = 0;
+
 #include <iostream>
 using namespace std;
 vector<int> SquareMaze::solveMaze()
@@ -165,7 +168,8 @@ vector<int> SquareMaze::solveMaze()
 		int curr = structure.front(); //Remove a cell from the ordering structure.
 		structure.pop();					
 		beenhere[curr] = true; //Mark it as having been visited.
-		
+		distance++; //updates the distance it has moved.
+
 		int x = curr%width;
 		int y = curr/width;
 		
@@ -190,13 +194,21 @@ vector<int> SquareMaze::solveMaze()
 
 		//Save the previous cell, in order to generate the solution later.
 		prev.push_back(curr);
-			
-		exitX = x;
 
 		if(y == height-1)
-			break; //A bit optimistic at this point.
-
+		{
+			if(currentBest < distance)
+			{
+				currentBest = distance;
+				exitX = x;
+			}
+			else if(currentBest == distance)
+				exitX = x < exitX? x : exitX;
+		}
 	}	
+
+	cout << "EXIT: " << x << endl;
+	cout << "Distance: " << currentBest << endl;
 
 	vector<int> solution;
 
