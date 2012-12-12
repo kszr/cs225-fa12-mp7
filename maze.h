@@ -25,6 +25,7 @@ class SquareMaze
 		DisjointSets forest;	
 		int width;
 		int height;
+		int exitX;
 		vector<bool> dwalls;
 		vector<bool> rwalls;
 

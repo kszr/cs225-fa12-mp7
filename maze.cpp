@@ -212,8 +212,10 @@ vector<int> SquareMaze::solveMaze()
 	/**
 	 * These will eventually have the values of the x-coordinate
 	 * of the exit and the distance of the exit from the start.
+	 * exitX is a member variable.
 	 */
-	int exitX = 0, distance = 0;
+	exitX = 0;
+	int distance = 0;
 
 	/**
 	 * By the end of this for loop, we shall have the position
@@ -406,5 +408,15 @@ PNG * SquareMaze::drawMazeWithSolution()
 			default: break;
 		}
 	}	
+
+	x = exitX;
+	y = height-1;
+
+	for(int k=0; k<10; k++)
+	{
+		pixel = (*thing)(x*10 + k, (y+1)*10);
+		pixel->red = pixel->blue = pixel->green = 255;
+	}
+
 	return thing;
 }
