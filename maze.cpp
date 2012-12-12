@@ -158,7 +158,7 @@ vector<int> SquareMaze::solveMaze()
 
 	int exitX = -1; //The x-coordinate of the exit
 
- 	vector<int> prev;
+ 	vector<int> prev; //A breadcrumb trail, if we are lucky.
 
 	int distance = 0;
     int currentBest = 0;
@@ -166,8 +166,9 @@ vector<int> SquareMaze::solveMaze()
 	{
 		int curr = structure.front(); //Remove a cell from the ordering structure.
 		structure.pop();					
-		beenhere[curr] = true; //Mark it as having been visited.
-		distance++; //updates the distance it has moved.
+		prev.push_back(curr); //More breadcrumbs
+		beenhere[curr] = true; //Mark this cell as having been visited.
+		distance++; //Update the distance it has moved.
 
 		int x = curr%width;
 		int y = curr/width;
@@ -192,7 +193,6 @@ vector<int> SquareMaze::solveMaze()
 			structure.push(up);
 
 		//Save the previous cell, in order to generate the solution later.
-		prev.push_back(curr);
 
 		if(y == height-1)
 		{
@@ -210,6 +210,27 @@ vector<int> SquareMaze::solveMaze()
 	cout << "Distance: " << currentBest << endl;
 
 	vector<int> solution;
+	prev.erase(0); //Remove the first element. It is not needed.
+
+	int currX=0; int currY=0;
+	for(int i=0; i<prev.size(); i++)
+	{
+		int cell = prev[i];
+		int x = cell%width;
+		int y = cell/width;
+
+		if(currX + 1 = x)
+			solution.push_back(0);
+		if(currY + 1 = y)
+			solution.push_back(1);
+		if(currX - 1 = x)
+			solution.push_back(2);
+		if(currY - 1 = y)
+			solution.push_back(3);
+
+		currX = x;
+		currY = y;
+	}
 
 	return solution;
 }	
