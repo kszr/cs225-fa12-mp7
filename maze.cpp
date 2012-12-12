@@ -206,11 +206,11 @@ vector<int> SquareMaze::solveMaze()
 		}
 	}	
 
-	cout << "EXIT: " << x << endl;
+	cout << "EXIT: " << exitX << endl;
 	cout << "Distance: " << currentBest << endl;
 
 	vector<int> solution;
-	prev.erase(0); //Remove the first element. It is not needed.
+	prev.erase(prev.begin()); //Remove the first element. It is not needed.
 
 	int currX=0; int currY=0;
 	for(int i=0; i<prev.size(); i++)
@@ -219,13 +219,13 @@ vector<int> SquareMaze::solveMaze()
 		int x = cell%width;
 		int y = cell/width;
 
-		if(currX + 1 = x)
+		if(currX + 1 == x)
 			solution.push_back(0);
-		if(currY + 1 = y)
+		if(currY + 1 == y)
 			solution.push_back(1);
-		if(currX - 1 = x)
+		if(currX - 1 == x)
 			solution.push_back(2);
-		if(currY - 1 = y)
+		if(currY - 1 == y)
 			solution.push_back(3);
 
 		currX = x;
