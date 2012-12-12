@@ -4,6 +4,7 @@
 #include <time.h>
 #include <climits>
 #include <queue>
+#include <map>
 
 /**
  * The default constructor.
@@ -158,8 +159,9 @@ vector<int> SquareMaze::solveMaze()
 
 	int exitX = -1; //The x-coordinate of the exit
 
- 	vector<int> prev; //A breadcrumb trail, if we are lucky.
-
+	//Each
+ 	map<int, int> prev; //A breadcrumb trail, if we are lucky.
+	
 	int distance = 0;
     int currentBest = 0;
 	while(!structure.empty())
