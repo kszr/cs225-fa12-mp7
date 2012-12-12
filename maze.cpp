@@ -267,7 +267,7 @@ vector<int> SquareMaze::solveMaze()
 
 	/**
 	 * Now it remains for us to generate the solution vector.
-	 * This will be done first by pushing the necessary values
+	 * This will be done by first pushing the necessary values
 	 * onto a stack, and then copying them over to the solution
 	 * vector, and will save us the need to reverse the vector
 	 * once it has been generated.
@@ -295,7 +295,7 @@ vector<int> SquareMaze::solveMaze()
 	}
 
 	/**
-	 * Now we copy the elements of the stack to the solution vector
+	 * Now we copy the elements of the stack to the solution vector.
 	 */
 	vector<int> solution;
 	while(!sol.empty())
@@ -414,7 +414,7 @@ PNG * SquareMaze::drawMazeWithSolution()
 
 	for(int k=0; k<10; k++)
 	{
-		pixel = (*thing)(x*10 + k, (y+1)*10);
+		RGBAPixel * pixel = (*thing)(x*10 + k, (y+1)*10);
 		pixel->red = pixel->blue = pixel->green = 255;
 	}
 
