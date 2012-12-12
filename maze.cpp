@@ -162,7 +162,7 @@ vector<int> SquareMaze::solveMaze()
 
 	while(!structure.empty())
 	{
-		int curr = structure.back(); //Remove a cell from the ordering structure.
+		int curr = structure.front(); //Remove a cell from the ordering structure.
 		structure.pop();					
 		beenhere[curr] = true; //Mark it as having been visited.
 		
