@@ -253,7 +253,7 @@ vector<int> SquareMaze::solveMaze()
 		if(distance < localDist)
 		{
 			distance = localDist;
-			exitX = cell%width;
+			exitX = i;
 		}
 		/**
 		 * This addresses a special though arbitrary tie-breaking
@@ -261,7 +261,7 @@ vector<int> SquareMaze::solveMaze()
 		 */
 		else if(distance == localDist)
 		{
-			exitX = exitX < cell%width? exitX : cell%width;
+			exitX = exitX < i? exitX : i;
 		}
 	}
 
