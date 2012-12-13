@@ -13,7 +13,7 @@
 int main()
 { 
    SquareMaze m;
-   m.makeMaze(2, 2);
+   m.makeMaze(500, 500);
    std::cout << "MakeMaze complete" << std::endl;
 
    PNG* unsolved = m.drawMaze();
