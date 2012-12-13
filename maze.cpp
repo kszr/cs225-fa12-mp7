@@ -345,7 +345,7 @@ PNG * SquareMaze::drawMaze() const
  		     * Draws a right wall, where present.
  		     */
 			if(rwalls[cell])
-				for(int k=0; k<10; k++)
+				for(int k=0; k<=10; k++)
 				{
 					RGBAPixel * pixel = (*thing)((x+1)*10, y*10+k);
 					pixel->red = pixel->blue = pixel->green = 0;
@@ -354,7 +354,7 @@ PNG * SquareMaze::drawMaze() const
  			 * Draws a bottom wall, where present.
  			 */
 			if(dwalls[cell])
-				for(int k=0; k<10; k++)
+				for(int k=0; k<=10; k++)
 				{
 					RGBAPixel * pixel = (*thing)(x*10+k, (y+1)*10);
 					pixel->red = pixel->blue = pixel->green = 0;
@@ -414,7 +414,7 @@ PNG * SquareMaze::drawMazeWithSolution()
 	x = exitX;
 	y = height-1;
 
-	for(int k=0; k<10; k++)
+	for(int k=0; k<=10; k++)
 	{
 		RGBAPixel * pixel = (*thing)(x*10 + k, (y+1)*10);
 		pixel->red = pixel->blue = pixel->green = 255;
