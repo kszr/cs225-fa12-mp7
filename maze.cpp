@@ -414,7 +414,7 @@ PNG * SquareMaze::drawMazeWithSolution()
 	x = exitX;
 	y = height-1;
 
-	for(int k=0; k<=10; k++)
+	for(int k=1; k<=10; k++)
 	{
 		RGBAPixel * pixel = (*thing)(x*10 + k, (y+1)*10);
 		pixel->red = pixel->blue = pixel->green = 255;
