@@ -25,10 +25,13 @@ SquareMaze::SquareMaze()
 void SquareMaze::makeMaze(int w, int h)
 {	
 	//Clears the dset.
-	forest.clear();
+	if(rwalls.size() != 0)
+		forest.clear(); 
 
-	//Now each cell is a tree unconnected
-	//to any other cell.
+	/**
+	 * Now each cell is made a set 
+	 * unconnected to any other set.
+	 */
 	forest.addelements(w*h);
 
 	height = h;
@@ -84,8 +87,8 @@ void SquareMaze::makeMaze(int w, int h)
 			 */
 			case 0: if(x == width-1) break; //if the cell is on the right perimeter.
 					if(forest.find(cell) == forest.find(cell+1)) break; //if the cell is already in the tree.
-					forest.setunion(cell, cell+1);
-					rwalls[cell] = false;
+					forest.setunion(cell, cell+1); //merge the two sets, and thereby create a path between them.
+					rwalls[cell] = false; //remove the wall separating the sets.
 					walls.erase(walls.begin() + random);
 					break;
 			case 1: if(y == height-1) break; //if the cell is on the bottom perimeter.
@@ -99,7 +102,7 @@ void SquareMaze::makeMaze(int w, int h)
 }
 
 /**
- * Helps to generate a pseudo-random number.
+ * Helps generate a pseudo-random number.
  */
 int SquareMaze::randgen()
 {
@@ -109,8 +112,6 @@ int SquareMaze::randgen()
 /** 
  * Each cell is given a unique number. Cells are numbered
  * from left to right in each row.
- *
- * (It is hoped that this function works as it should.)
  */
 bool SquareMaze::canTravel(int x, int y, int dir) const
 {
@@ -163,13 +164,14 @@ vector<int> SquareMaze::solveMaze()
 	 * Each key represents a cell, and has as its value
 	 * the cell whence it was reached.
 	 */
- 	map<int, int> prev; //A breadcrumb trail, if we are lucky.
+ 	map<int, int> prev; //A breadcrumb trail
 
+	//Breadth-first search
 	while(!structure.empty())
 	{
 		int curr = structure.front(); //Remove a cell from the ordering structure.
 		structure.pop();					
-		beenhere[curr] = true; //Mark this cell as having been visited.
+		beenhere[curr] = true; //Mark the cell as having been visited.
 
 		int x = curr%width;
 		int y = curr/width;
@@ -256,7 +258,7 @@ vector<int> SquareMaze::solveMaze()
 			exitX = i;
 		}
 		/**
-		 * This addresses a special though arbitrary tie-breaking
+		 * This addresses a special, though arbitrary, tie-breaking
 		 * case adumbrated in the documentation.
 		 */
 		else if(distance == localDist)
